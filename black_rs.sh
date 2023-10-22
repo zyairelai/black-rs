@@ -76,7 +76,7 @@ done < "$input_file"
 if [ -e "$output_file" ]; then
   echo "[+] Active URLs (excluding specific errors) have been saved to $output_file"
 else
-  echo "[+] There are no active URLs on port $port"
+  echo "[+] There are no active URLs on port $port_number"
 fi
 
 rm fourfourthree.txt
