@@ -2,7 +2,6 @@
 
 if [ "$#" -ne 1 ]; then
   echo "[+] Usage: $0 <port_number>"
-  echo "[+] Do note that this script can only take port number one at a time"
   exit 1
 fi
 
@@ -33,7 +32,7 @@ url_counter=1
 
 # Function to check for specific error messages
 function has_error {
-  if [[ "$1" != *"Connection reset by peer"* && "$1" != *"Empty reply from server"* && "$1" != *"error:1408F10B:SSL routines"* && "$1" != *"SSL_ERROR_SYSCALL"*  ]]; then
+  if [[ "$1" != *"Connection reset by peer"* && "$1" != *"Empty reply from server"* && "$1" != *"error:1408F10B:SSL routines"* && "$1" != *"SSL_ERROR_SYSCALL"* && "$1" != *"Connection refused"* ]]; then
     return 0  # No error
   else
     return 1  # Error found
