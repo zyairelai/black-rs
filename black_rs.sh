@@ -2,6 +2,7 @@
 
 if [ "$#" -ne 2 ]; then
   echo "[+] Usage: $0 <ip_list_txt> <port_number>"
+  echo "[+] Do note that this script can only take port number one at a time"
   exit 1
 fi
 
