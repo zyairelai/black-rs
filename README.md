@@ -33,7 +33,6 @@ Use `rs_port.sh` to scan the port you want to target
 ```
 $ black_rs
 [+] Usage: black_rs <ip_list_txt> <port_number>
-[+] Do note that this script can only take port number one at a time
 ```
 Example
 ```
