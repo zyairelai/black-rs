@@ -35,7 +35,7 @@ output_file="rs_$port_number.txt"
 
 # Check if the output file exists and delete it if it does
 if [ -e "$output_file" ]; then
-  echo "Deleting existing output file: $output_file"
+  echo "[+] Deleting existing output file: $output_file"
   rm "$output_file"
 fi
 
