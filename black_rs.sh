@@ -63,25 +63,17 @@ while IFS= read -r line; do
       http_url="http://$ip:$port_number"
       https_url="https://$ip:$port_number"
 
-      if [ "$port_number" -eq 80 ] || [ "$port_number" -eq 443 ]; then
-        # Use only one protocol (HTTP or HTTPS) for common ports
-        result_http=$(curl -m 3 -k "$http_url" -o /dev/null 2>&1)
-        if has_error "$result_http" && [ -n "$result_http" ]; then
-          echo "$http_url" >> "$output_file"
-        fi
-      else
-        # For other ports, use both HTTP and HTTPS
-        result_http=$(curl -m 3 -k "$http_url" -o /dev/null 2>&1)
-        result_https=$(curl -m 3 -k "$https_url" -o /dev/null 2>&1)
+      result_http=$(curl -m 3 -k "$http_url" -o /dev/null 2>&1)
+      result_https=$(curl -m 3 -k "$https_url" -o /dev/null 2>&1)
 
-        if has_error "$result_http" && [ -n "$result_http" ]; then
-          echo "$http_url" >> "$output_file"
-        fi
-
-        if has_error "$result_https" && [ -n "$result_https" ]; then
-          echo "$https_url" >> "$output_file"
-        fi
+      if has_error "$result_http" && [ -n "$result_http" ]; then
+        echo "$http_url" >> "$output_file"
       fi
+
+      if has_error "$result_https" && [ -n "$result_https" ]; then
+        echo "$https_url" >> "$output_file"
+      fi
+
     done
   fi
 done < "rustscan_greppable.txt"
