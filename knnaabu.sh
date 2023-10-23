@@ -8,7 +8,7 @@ fi
 # Check if Nuclei installed, if not, HALT
 if [ ! -f "/usr/bin/nuclei" ]; then
   echo "[+] Nuclei not found!"
-  echo "[+] Please RTFM and install Nuclei before proceeding!"
+  echo "[+] RTFM and install Nuclei before proceeding!"
   exit 1
 fi
 
