@@ -40,6 +40,7 @@ function has_error {
         "$1" != *"Connection reset by peer"* && \
         "$1" != *"Connection timed out"* && \
         "$1" != *"Empty reply from server"* && \
+        "$1" != *"PROTOCOL_ERROR"* && \
         "$1" != *"SSL_ERROR_SYSCALL"* && \
         "$1" != *"SSL routines"* ]]; then
     return 0  # No error
