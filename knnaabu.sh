@@ -47,6 +47,7 @@ echo "[+] Proceeding to nuclei scan against '$naabu_output'"
 -eid old-copyright \
 -eid options-method \
 -eid ptr-fingerprint \
+-eid robots-txt-endpoint \
 -eid tech-detect \
 -eid waf-detect \
 -eid wildcard-tls \
