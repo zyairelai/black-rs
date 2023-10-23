@@ -31,16 +31,8 @@ echo "
 [+] Rustscan against $1"
 echo "[+] Targetted ports: $comma_separated"
 echo "[i] You can modify line 18 to specify the port you desire to scan"
-rustscan -a "$1" -p "$comma_separated" -g > rustscan_greppable.txt
-
-# Use grep and regular expression to extract IP addresses
-ip_addresses=$(grep -oE '([0-9]{1,3}\.){3}[0-9]{1,3}' rustscan_greppable.txt)
-
-# Use awk to remove duplicates
-unique_ip_addresses=$(echo "$ip_addresses" | awk '!seen[$0]++')
-
-# Save the unique IP addresses to a file
-echo "$unique_ip_addresses" | sort > "rustscan_result.txt"
+rustscan -a "$1" -p "$comma_separated" -g > rustscan_raw.txt
+sort -u rustscan_raw.txt -o rustscan_greppable.txt
 
 # Function to check for specific error messages
 function has_error {
@@ -56,45 +48,52 @@ function has_error {
   fi
 }
 
-# Extract values within square brackets and remove duplicates
-active_ports=$(grep -o '\[[0-9]*\]' "rustscan_greppable.txt" | tr -d '[]' | tr ',' '\n' | sort -n | uniq)
-
-# Read the list of active ports from the "rustscan_greppable.txt" file and format it
-comma_ports=$(grep -o '\[[0-9]*\]' "rustscan_greppable.txt" | tr -d '[]' | tr ',' '\n' | sort -n | uniq | tr '\n' ',' | sed 's/,$//')
-
 echo "[+] Done RustScan!"
 echo "
 [+] Proceeding to curl the Active URLs..."
-echo "[+] Current Active Ports: $comma_ports"
 
-# Loop through the list of IP addresses in the input file and run curl for active ports
-while IFS= read -r ip; do
+# Loop through the list of IP addresses in the input file
+while IFS= read -r line; do
+  # Extract IP and port numbers from the line
+  ip=$(echo "$line" | awk -F ' -> ' '{print $1}')
+  ports=$(echo "$line" | awk -F ' -> ' '{print $2}' | tr -d '[]' | tr ',' ' ')
+
   if [ -n "$ip" ]; then
-    for port_number in $active_ports; do
+    for port_number in $ports; do
       http_url="http://$ip:$port_number"
       https_url="https://$ip:$port_number"
 
-      result_http=$(curl -m 3 -k "$http_url" -o /dev/null 2>&1)
-      result_https=$(curl -m 3 -k "$https_url" -o /dev/null 2>&1)
+      if [ "$port_number" -eq 80 ] || [ "$port_number" -eq 443 ]; then
+        # Use only one protocol (HTTP or HTTPS) for common ports
+        result_http=$(curl -m 3 -k "$http_url" -o /dev/null 2>&1)
+        if has_error "$result_http" && [ -n "$result_http" ]; then
+          echo "$http_url" >> "$output_file"
+        fi
+      else
+        # For other ports, use both HTTP and HTTPS
+        result_http=$(curl -m 3 -k "$http_url" -o /dev/null 2>&1)
+        result_https=$(curl -m 3 -k "$https_url" -o /dev/null 2>&1)
 
-      # Check if the result doesn't contain specific error messages and is not empty
-      if has_error "$result_http" && [ -n "$result_http" ]; then
-        echo "$http_url" >> "$output_file"
-      fi
+        if has_error "$result_http" && [ -n "$result_http" ]; then
+          echo "$http_url" >> "$output_file"
+        fi
 
-      if [ "$port_number" -ne 80 ] && has_error "$result_https" && [ -n "$result_https" ]; then
-        echo "$https_url" >> "$output_file"
+        if has_error "$result_https" && [ -n "$result_https" ]; then
+          echo "$https_url" >> "$output_file"
+        fi
       fi
     done
   fi
-done < "$input_file"
+done < "rustscan_greppable.txt"
 
 # Check if the output file exists empty and then display the final message
 if [ -e "$output_file" ]; then
+  awk '!seen[$0]++' $output_file > final.txt
+  mv final.txt $output_file
   echo '[+] Active URLs (excluding specific errors) have been saved to' "$output_file"
 else
   echo '[+] There are no active URLs on the' "$1"
 fi
 
+rm rustscan_raw.txt
 rm rustscan_greppable.txt
-rm rustscan_result.txt
