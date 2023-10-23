@@ -50,8 +50,7 @@ function has_error {
 }
 
 echo "[+] Done RustScan!"
-echo "
-[+] Proceeding to curl the Active URLs..."
+echo "[+] Proceeding to curl the Active URLs..."
 
 # Loop through the list of IP addresses in the input file
 while IFS= read -r line; do
