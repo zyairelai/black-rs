@@ -37,7 +37,7 @@ sort -t':' -k1,1 -k2,2n -o $naabu_output $naabu_output
 # Run nuclei against the naabu.txt
 echo "[+] Proceeding to nuclei scan against knn_naabu.txt"
 # /usr/bin/nuclei -l $naabu_output -es info,low -o $nuclei_output
-/usr/bin/nuclei -l $naabu_output -o $nuclei_output
+/usr/bin/nuclei -l $naabu_output -eid options-method,xss-deprecated-header,http-missing-security-headers,external-service-interaction,favicon-detect,waf-detect -o $nuclei_output 
 
 echo "
 [+] Done! The Nuclei Output is saved to knn_nuclei.txt"
