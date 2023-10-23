@@ -5,7 +5,7 @@ if [ "$#" -ne 1 ]; then
   exit 1
 fi
 
-# Check if /usr/bin/naabu exists, in not, install it
+# Check if Nuclei installed, if not, HALT
 if [ ! -f "/usr/bin/nuclei" ]; then
   echo "[+] Nuclei not found!"
   echo "[+] Please RTFM and install Nuclei before proceeding!"
