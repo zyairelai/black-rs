@@ -31,7 +31,7 @@ echo "[+] Rustscan against $1"
 echo "[+] Targetted ports: $comma_separated"
 echo "[i] You can modify line 18 to specify the port you desire to scan"
 rustscan -a "$1" -p "$comma_separated" -g > rustscan_raw.txt
-sort -u rustscan_raw.txt -o rustscan_greppable.txt
+sort -u rustscan_raw.txt -o rustscan.txt
 
 # Function to check for specific error messages
 function has_error {
@@ -75,7 +75,7 @@ while IFS= read -r line; do
 
     done
   fi
-done < "rustscan_greppable.txt"
+done < "rustscan.txt"
 
 # Check if the output file exists empty and then display the final message
 if [ -e "$output_file" ]; then
@@ -87,4 +87,4 @@ else
 fi
 
 rm rustscan_raw.txt
-rm rustscan_greppable.txt
+# rm rustscan.txt
