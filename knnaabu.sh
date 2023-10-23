@@ -22,17 +22,20 @@ if [ ! -f "/usr/bin/naabu" ]; then
   sudo mv naabu /usr/bin/naabu
 fi
 
+naabu_output="knn_naabu.txt"
+nuclei_output="knn_nuclei.txt"
+
 # Run naabu on silent mode
 echo "[+] Following are the Naabu scan output:"
-/usr/bin/naabu -silent -l "$1" -o knn_naabu.txt
+/usr/bin/naabu -silent -l "$1" -o $naabu_output
 echo "
 [+] Done naabu! The naabu scan output is saved to knn_naabu.txt"
 
 # Sort the IP and Port for OCD purposes
-sort -t':' -k1,1 -k2,2n -o knn_naabu.txt knn_naabu.txt
+sort -t':' -k1,1 -k2,2n -o $naabu_output $naabu_output
 
 # Run nuclei against the naabu.txt
 echo "[+] Proceeding to nuclei scan against knn_naabu.txt"
-/usr/bin/nuclei -l naabu.txt -es info -o knn_nuclei.txt 
+/usr/bin/nuclei -l $naabu_output -es info,low -o $nuclei_output
 echo "
 [+] Done! The Nuclei Output is saved to knn_nuclei.txt"
