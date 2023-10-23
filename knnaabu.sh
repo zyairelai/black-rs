@@ -38,14 +38,16 @@ sort -t':' -k1,1 -k2,2n -o $naabu_output $naabu_output
 echo "[+] Proceeding to nuclei scan against '$naabu_output'"
 # /usr/bin/nuclei -l $naabu_output -es info,low -o $nuclei_output
 /usr/bin/nuclei -l $naabu_output -o $nuclei_output \
--eid /opt/nuclei/nuclei-templates/http/miscellaneous/options-method.yaml \
--eid /opt/nuclei/nuclei-templates/http/misconfiguration/http-missing-security-headers.yaml \
--eid /opt/nuclei/nuclei-templates/http/misconfiguration/xss-deprecated-header.yaml \
--eid /opt/nuclei/nuclei-templates/http/miscellaneous/external-service-interaction.yaml \
--eid /opt/nuclei/nuclei-templates/http/technologies/favicon-detect.yaml \
--eid /opt/nuclei/nuclei-templates/http/technologies/waf-detect.yaml \
--eid /opt/nuclei/nuclei-templates/ssl/detect-ssl-issuer.yaml \
--eid /opt/nuclei/nuclei-templates/ssl/wildcard-tls.yaml
+-eid detect-ssl-issuer \
+-eid external-service-interaction \
+-eid favicon-detect \
+-eid httponly-cookie-detect \
+-eid http-missing-security-headers \
+-eid options-method \
+-eid ptr-fingerprint \
+-eid waf-detect \
+-eid wildcard-tls \
+-eid xss-deprecated-header
 
 echo "
 [+] Done! The Nuclei Output is saved to '$nuclei_output'"
