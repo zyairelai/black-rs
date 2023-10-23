@@ -29,15 +29,15 @@ nuclei_output="knn_nuclei.txt"
 echo "[+] Running Naabu against '$1'"
 /usr/bin/naabu -silent -l "$1" -o $naabu_output
 echo "
-[+] Done naabu! The naabu scan output is saved to knn_naabu.txt"
+[+] Done naabu! The naabu scan output is saved to '$naabu_output'"
 
 # Sort the IP and Port for OCD purposes
 sort -t':' -k1,1 -k2,2n -o $naabu_output $naabu_output
 
 # Run nuclei against the naabu.txt
-echo "[+] Proceeding to nuclei scan against knn_naabu.txt"
+echo "[+] Proceeding to nuclei scan against '$naabu_output'"
 # /usr/bin/nuclei -l $naabu_output -es info,low -o $nuclei_output
-/usr/bin/nuclei -l $naabu_output -o $naabu_output \
+/usr/bin/nuclei -l $naabu_output -o $nuclei_output \
 -eid /opt/nuclei/nuclei-templates/http/miscellaneous/options-method.yaml \
 -eid /opt/nuclei/nuclei-templates/http/misconfiguration/http-missing-security-headers.yaml \
 -eid /opt/nuclei/nuclei-templates/http/misconfiguration/xss-deprecated-header.yaml \
@@ -48,4 +48,4 @@ echo "[+] Proceeding to nuclei scan against knn_naabu.txt"
 -eid /opt/nuclei/nuclei-templates/ssl/wildcard-tls.yaml
 
 echo "
-[+] Done! The Nuclei Output is saved to knn_nuclei.txt"
+[+] Done! The Nuclei Output is saved to '$nuclei_output'"
