@@ -27,8 +27,7 @@ for number in "${port_numbers[@]}"; do
 done
 
 # RustScan 
-echo "
-[+] Rustscan against $1"
+echo "[+] Rustscan against $1"
 echo "[+] Targetted ports: $comma_separated"
 echo "[i] You can modify line 18 to specify the port you desire to scan"
 rustscan -a "$1" -p "$comma_separated" -g > rustscan_raw.txt
