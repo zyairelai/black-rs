@@ -23,7 +23,7 @@ if [ ! -f "/usr/bin/naabu" ]; then
 fi
 
 # Run naabu on silent mode
-echo "[+] Following are the aaabu scan output:"
+echo "[+] Following are the Naabu scan output:"
 /usr/bin/naabu -silent -l "$1" -o knn_naabu.txt
 echo "
 [+] Done naabu! The naabu scan output is saved to knn_naabu.txt"
