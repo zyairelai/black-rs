@@ -41,10 +41,13 @@ echo "[+] Proceeding to nuclei scan against '$naabu_output'"
 -eid detect-ssl-issuer \
 -eid external-service-interaction \
 -eid favicon-detect \
+-eid fingerprinthub-web-fingerprints \
 -eid httponly-cookie-detect \
 -eid http-missing-security-headers \
+-eid old-copyright \
 -eid options-method \
 -eid ptr-fingerprint \
+-eid tech-detect \
 -eid waf-detect \
 -eid wildcard-tls \
 -eid xss-deprecated-header
