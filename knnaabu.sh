@@ -38,5 +38,6 @@ sort -t':' -k1,1 -k2,2n -o $naabu_output $naabu_output
 echo "[+] Proceeding to nuclei scan against knn_naabu.txt"
 # /usr/bin/nuclei -l $naabu_output -es info,low -o $nuclei_output
 /usr/bin/nuclei -l $naabu_output -o $nuclei_output
+
 echo "
 [+] Done! The Nuclei Output is saved to knn_nuclei.txt"
