@@ -39,16 +39,21 @@ echo "[+] Proceeding to nuclei scan against '$naabu_output'"
 # /usr/bin/nuclei -l $naabu_output -es info,low -o $nuclei_output
 /usr/bin/nuclei -l $naabu_output -o $nuclei_output \
 -eid detect-ssl-issuer \
+-eid dns-saas-service-detection \
 -eid external-service-interaction \
 -eid favicon-detect \
 -eid fingerprinthub-web-fingerprints \
 -eid httponly-cookie-detect \
 -eid http-missing-security-headers \
+-eid mx-fingerprint \
+-eid mx-service-detector \
+-eid nameserver-fingerprint \
 -eid old-copyright \
 -eid options-method \
 -eid ptr-fingerprint \
 -eid robots-txt-endpoint \
 -eid tech-detect \
+-eid txt-fingerprint \
 -eid waf-detect \
 -eid wildcard-tls \
 -eid xss-deprecated-header
