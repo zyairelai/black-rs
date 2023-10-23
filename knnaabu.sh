@@ -37,7 +37,15 @@ sort -t':' -k1,1 -k2,2n -o $naabu_output $naabu_output
 # Run nuclei against the naabu.txt
 echo "[+] Proceeding to nuclei scan against knn_naabu.txt"
 # /usr/bin/nuclei -l $naabu_output -es info,low -o $nuclei_output
-/usr/bin/nuclei -l $naabu_output -eid options-method,xss-deprecated-header,http-missing-security-headers,external-service-interaction,favicon-detect,waf-detect -o $nuclei_output 
+/usr/bin/nuclei -l $naabu_output -o $naabu_output \
+-eid /opt/nuclei/nuclei-templates/http/miscellaneous/options-method.yaml \
+-eid /opt/nuclei/nuclei-templates/http/misconfiguration/http-missing-security-headers.yaml \
+-eid /opt/nuclei/nuclei-templates/http/misconfiguration/xss-deprecated-header.yaml \
+-eid /opt/nuclei/nuclei-templates/http/miscellaneous/external-service-interaction.yaml \
+-eid /opt/nuclei/nuclei-templates/http/technologies/favicon-detect.yaml \
+-eid /opt/nuclei/nuclei-templates/http/technologies/waf-detect.yaml \
+-eid /opt/nuclei/nuclei-templates/ssl/detect-ssl-issuer.yaml \
+-eid /opt/nuclei/nuclei-templates/ssl/wildcard-tls.yaml
 
 echo "
 [+] Done! The Nuclei Output is saved to knn_nuclei.txt"
