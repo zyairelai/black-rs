@@ -26,7 +26,7 @@ naabu_output="knn_naabu.txt"
 nuclei_output="knn_nuclei.txt"
 
 # Run naabu on silent mode
-echo "[+] Following are the Naabu scan output:"
+echo "[+] Running Naabu against '$1'"
 /usr/bin/naabu -silent -l "$1" -o $naabu_output
 echo "
 [+] Done naabu! The naabu scan output is saved to knn_naabu.txt"
