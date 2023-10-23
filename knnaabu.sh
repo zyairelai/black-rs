@@ -28,10 +28,11 @@ echo "[+] Following are the Naabu scan output:"
 echo "
 [+] Done naabu! The naabu scan output is saved to knn_naabu.txt"
 
+# Sort the IP and Port for OCD purposes
+sort -t':' -k1,1 -k2,2n -o knn_naabu.txt knn_naabu.txt
+
 # Run nuclei against the naabu.txt
 echo "[+] Proceeding to nuclei scan against knn_naabu.txt"
 /usr/bin/nuclei -l naabu.txt -es info -o knn_nuclei.txt 
 echo "
 [+] Done! The Nuclei Output is saved to knn_nuclei.txt"
-
-# rm knn_naabu.txt
