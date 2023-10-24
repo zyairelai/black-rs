@@ -49,6 +49,7 @@ echo "[+] Proceeding to nuclei scan against '$naabu_output'"
 -eid ptr-fingerprint \
 -eid txt-fingerprint \
 -eid nameserver-fingerprint \
+-eid http-trace \
 -eid httponly-cookie-detect \
 -eid http-missing-security-headers \
 -eid missing-sri \
