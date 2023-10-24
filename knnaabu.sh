@@ -38,7 +38,9 @@ sort -t':' -k1,1 -k2,2n -o $naabu_output $naabu_output
 echo "[+] Proceeding to nuclei scan against '$naabu_output'"
 # /usr/bin/nuclei -l $naabu_output -es info,low -o $nuclei_output
 /usr/bin/nuclei -l $naabu_output -o $nuclei_output -et ssl \
+-eid addeventlistener-detect \
 -eid dns-saas-service-detection \
+-eid email-extractor \
 -eid external-service-interaction \
 -eid favicon-detect \
 -eid fingerprinthub-web-fingerprints \
