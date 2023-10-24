@@ -39,6 +39,7 @@ echo "[+] Proceeding to nuclei scan against '$naabu_output'"
 # /usr/bin/nuclei -l $naabu_output -es info,low -o $nuclei_output
 /usr/bin/nuclei -l $naabu_output -o $nuclei_output \
 -eid detect-ssl-issuer \
+-eid deprecated-tls \
 -eid dns-saas-service-detection \
 -eid external-service-interaction \
 -eid favicon-detect \
@@ -53,9 +54,13 @@ echo "[+] Proceeding to nuclei scan against '$naabu_output'"
 -eid options-method \
 -eid ptr-fingerprint \
 -eid robots-txt-endpoint \
+-eid ssl-dns-names \
+-eid ssl-issuer \
 -eid tech-detect \
+-eid tls-version \
 -eid txt-fingerprint \
 -eid waf-detect \
+-eid weak-cipher-suites \
 -eid wildcard-tls \
 -eid xss-deprecated-header
 
