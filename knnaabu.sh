@@ -37,31 +37,25 @@ sort -t':' -k1,1 -k2,2n -o $naabu_output $naabu_output
 # Run nuclei against the naabu.txt
 echo "[+] Proceeding to nuclei scan against '$naabu_output'"
 # /usr/bin/nuclei -l $naabu_output -es info,low -o $nuclei_output
-/usr/bin/nuclei -l $naabu_output -o $nuclei_output \
--eid detect-ssl-issuer \
--eid deprecated-tls \
+/usr/bin/nuclei -l $naabu_output -o $nuclei_output -et ssl \
 -eid dns-saas-service-detection \
 -eid external-service-interaction \
 -eid favicon-detect \
 -eid fingerprinthub-web-fingerprints \
+-eid mx-fingerprint \
+-eid caa-fingerprint \
+-eid ptr-fingerprint \
+-eid txt-fingerprint \
+-eid nameserver-fingerprint \
 -eid httponly-cookie-detect \
 -eid http-missing-security-headers \
 -eid missing-sri \
--eid mx-fingerprint \
 -eid mx-service-detector \
--eid nameserver-fingerprint \
 -eid old-copyright \
 -eid options-method \
--eid ptr-fingerprint \
 -eid robots-txt-endpoint \
--eid ssl-dns-names \
--eid ssl-issuer \
 -eid tech-detect \
--eid tls-version \
--eid txt-fingerprint \
 -eid waf-detect \
--eid weak-cipher-suites \
--eid wildcard-tls \
 -eid xss-deprecated-header
 
 echo "
