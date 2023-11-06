@@ -59,9 +59,13 @@ while IFS= read -r line; do
 
   if [ -n "$ip" ]; then
     for port_number in $ports; do
-      http_url="http://$ip:$port_number"
-      https_url="https://$ip:$port_number"
-
+      if [ "$port_number" -eq 80 ]; then
+        http_url="http://$ip:$port_number"
+      else
+        http_url="http://$ip:$port_number"
+        https_url="https://$ip:$port_number"
+      fi
+      
       result_http=$(curl -m 3 -k "$http_url" -o /dev/null 2>&1)
       result_https=$(curl -m 3 -k "$https_url" -o /dev/null 2>&1)
 
@@ -83,7 +87,7 @@ if [ -e "$output_file" ]; then
   mv final.txt $output_file
   echo '[+] Active URLs (excluding specific errors) have been saved to' "$output_file"
 else
-  echo '[+] There are no active URLs on the' "$1"
+  echo '[+] There are no active URLs'
 fi
 
 rm rustscan_raw.txt
