@@ -35,9 +35,9 @@ sort -u rustscan_raw.txt -o rustscan.txt
 
 # Function to check for specific error messages
 function has_error {
-  if [[ "$1" != *"Connection refused"* && \
-        "$1" != *"Connection reset by peer"* && \
-        "$1" != *"Connection timed out"* && \
+  if [[ "$1" != *"refused"* && \
+        "$1" != *"reset by peer"* && \
+        "$1" != *"timed out"* && \
         "$1" != *"Empty reply from server"* && \
         "$1" != *"PROTOCOL_ERROR"* && \
         "$1" != *"SSL_ERROR_SYSCALL"* && \
