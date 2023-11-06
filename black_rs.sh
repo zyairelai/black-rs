@@ -15,7 +15,7 @@ if [ -e "$output_file" ]; then
 fi
 
 # Define an array of numbers
-port_numbers=(80 81 443 3000 4200 5000 8000 8080 8443 8444 8888 9443 30821)
+port_numbers=(80 81 443 3000 4200 5000 8000 8006 8080 8443 8444 8888 9443 30821)
 
 # Adding commas to the port numbers for rustscan
 comma_separated=""
