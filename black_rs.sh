@@ -41,9 +41,14 @@ function has_error {
         "$1" != *"Empty reply from server"* && \
         "$1" != *"PROTOCOL_ERROR"* && \
         "$1" != *"400 Bad Request"* && \
+        "$1" != *"401 Unauthorized"* && \
+        "$1" != *"403 Forbidden"* && \
+        "$1" != *"404 Not"* && \
         "$1" != *"SSL_ERROR_SYSCALL"* && \
         "$1" != *"SSL routines"* ]]; then
     return 0  # No error
+  elif [ -z "$1" ]; then # If no output from curl command
+  	return 1  # Error found
   else
     return 1  # Error found
   fi
