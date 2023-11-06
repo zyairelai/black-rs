@@ -60,7 +60,9 @@ while IFS= read -r line; do
   if [ -n "$ip" ]; then
     for port_number in $ports; do
       if [ "$port_number" -eq 80 ]; then
-        http_url="http://$ip:$port_number"
+        http_url="http://$ip"
+      elif [ "$port_number" -eq 443 ]; then
+        https_url="https://$ip"
       else
         http_url="http://$ip:$port_number"
         https_url="https://$ip:$port_number"
