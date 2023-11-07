@@ -85,8 +85,8 @@ while IFS= read -r line; do
         https_url="https://$ip:$port_number"
       fi
       
-      result_http=$(curl -s -m 3 -k "$http_url")
-      result_https=$(curl -s -m 3 -k "$https_url")
+      result_http=$(curl -L -s -m 3 -k "$http_url")
+      result_https=$(curl -L -s -m 3 -k "$https_url")
 
       if has_error "$result_http" && [ -n "$result_http" ]; then
         echo "$http_url" >> "$output_file"
