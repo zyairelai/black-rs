@@ -101,7 +101,7 @@ done < "rustscan.txt"
 # Check if the output file exists empty and then display the final message
 if [ -e "$output_file" ]; then
   awk '!seen[$0]++' $output_file > final_ride.txt
-  sort -u -o final_ride.txt $output_file
+  sort -u final_ride.txt -o $output_file
   echo '[+] Active URLs (excluding specific errors) have been saved to' "$output_file"
 else
   echo '[+] There are no active URLs'
