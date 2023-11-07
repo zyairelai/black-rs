@@ -1,12 +1,7 @@
 # BLACK RS
-This repository contains the scripts I used for massive IP scans
-```
-black_rs.sh : Detect all active web URL + ports combinations
-knnaabu.sh : Use naabu to detect the top 100 open ports then Nuclei scan
-```
+Detect all active web URL + ports combinations
 
 ![image](https://github.com/zyairelai/black-rs/assets/49854907/b3f690c1-8ded-418a-b29e-115d44dc9fa7)
-
 
 ## Prerequisite
 Installing Rust and  Cargo 
