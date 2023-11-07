@@ -44,12 +44,13 @@ sort -u rustscan_raw.txt -o rustscan.txt
 function has_error {
   if [ -z "$1" ]; then
     return 1  # Error found (empty output)
-  elif [[ "$1" != *"refused"* && \
-        "$1" != *"reset by peer"* && \
-        "$1" != *"timed out"* && \
-        "$1" != *"Not Found"* && \
+  elif [[ "$1" != *"curl failed"* && \
         "$1" != *"Empty reply from server"* && \
         "$1" != *"no alternative certificate"* && \
+        "$1" != *"Not Found"* && \
+  	    "$1" != *"refused"* && \
+        "$1" != *"reset by peer"* && \
+        "$1" != *"timed out"* && \
         "$1" != *"400 Bad Request"* && \
         "$1" != *"401 Unauthorized"* && \
         "$1" != *"403 Forbidden"* && \
