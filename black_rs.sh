@@ -13,8 +13,16 @@ output_file="blackrs_output.txt"
 
 # Check if the output file exists and delete it if it does
 if [ -e "$output_file" ]; then
-  echo "[+] Deleting existing output file: $output_file"
+  # echo "[+] Deleting existing output file: $output_file"
   rm "$output_file"
+fi
+
+if [ -e "rustscan_raw.txt" ]; then
+  rm rustscan_raw.txt
+fi
+
+if [ -e "rustscan.txt" ]; then
+  rm rustscan.txt
 fi
 
 # Adding commas to the port numbers for rustscan
@@ -29,26 +37,26 @@ done
 # RustScan 
 echo "[+] Rustscan against $1"
 echo "[+] Targetted ports: $comma_separated"
-echo "[i] You can modify line 18 to specify the port you desire to scan"
 rustscan -a "$1" -p "$comma_separated" -g > rustscan_raw.txt
 sort -u rustscan_raw.txt -o rustscan.txt
 
 # Function to check for specific error messages
 function has_error {
-  if [[ "$1" != *"refused"* && \
+  if [ -z "$1" ]; then
+    return 1  # Error found (empty output)
+  elif [[ "$1" != *"refused"* && \
         "$1" != *"reset by peer"* && \
         "$1" != *"timed out"* && \
+        "$1" != *"Not Found"* && \
         "$1" != *"Empty reply from server"* && \
-        "$1" != *"PROTOCOL_ERROR"* && \
         "$1" != *"400 Bad Request"* && \
         "$1" != *"401 Unauthorized"* && \
         "$1" != *"403 Forbidden"* && \
-        "$1" != *"404 Not"* && \
+        "$1" != *"404 Not Found"* && \
+        "$1" != *"PROTOCOL_ERROR"* && \
         "$1" != *"SSL_ERROR_SYSCALL"* && \
         "$1" != *"SSL routines"* ]]; then
     return 0  # No error
-  elif [ -z "$1" ]; then # If no output from curl command
-  	return 1  # Error found
   else
     return 1  # Error found
   fi
@@ -65,17 +73,18 @@ while IFS= read -r line; do
 
   if [ -n "$ip" ]; then
     for port_number in $ports; do
-      if [ "$port_number" -eq 80 ]; then
-        http_url="http://$ip"
-      elif [ "$port_number" -eq 443 ]; then
-        https_url="https://$ip"
+      if [ "$port_number" -eq 8080 ]; then http_url="http://$ip:$port_number"
+      elif [ "$port_number" -eq 80 ]; then http_url="http://$ip"
+      elif [ "$port_number" -eq 443 ]; then https_url="https://$ip"
+      elif [ "$port_number" -eq 8443 ] || [ "$port_number" -eq 9443 ]; then
+      	https_url="https://$ip:$port_number"
       else
         http_url="http://$ip:$port_number"
         https_url="https://$ip:$port_number"
       fi
       
-      result_http=$(curl -m 3 -k "$http_url" -o /dev/null 2>&1)
-      result_https=$(curl -m 3 -k "$https_url" -o /dev/null 2>&1)
+      result_http=$(curl -s -m 3 -k "$http_url")
+      result_https=$(curl -s -m 3 -k "$https_url")
 
       if has_error "$result_http" && [ -n "$result_http" ]; then
         echo "$http_url" >> "$output_file"
@@ -91,12 +100,13 @@ done < "rustscan.txt"
 
 # Check if the output file exists empty and then display the final message
 if [ -e "$output_file" ]; then
-  awk '!seen[$0]++' $output_file > final.txt
-  mv final.txt $output_file
+  awk '!seen[$0]++' $output_file > final_ride.txt
+  sort -u -o final_ride.txt $output_file
   echo '[+] Active URLs (excluding specific errors) have been saved to' "$output_file"
 else
   echo '[+] There are no active URLs'
 fi
 
 rm rustscan_raw.txt
+rm final_ride.txt
 # rm rustscan.txt
