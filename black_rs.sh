@@ -47,6 +47,7 @@ function has_error {
   elif [[ "$1" != *"curl failed"* && \
         "$1" != *"Empty reply from server"* && \
         "$1" != *"no alternative certificate"* && \
+  	    "$1" != *"Forbidden"* && \
         "$1" != *"Not Found"* && \
   	    "$1" != *"refused"* && \
         "$1" != *"reset by peer"* && \
