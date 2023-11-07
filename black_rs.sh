@@ -49,6 +49,7 @@ function has_error {
         "$1" != *"timed out"* && \
         "$1" != *"Not Found"* && \
         "$1" != *"Empty reply from server"* && \
+        "$1" != *"no alternative certificate"* && \
         "$1" != *"400 Bad Request"* && \
         "$1" != *"401 Unauthorized"* && \
         "$1" != *"403 Forbidden"* && \
